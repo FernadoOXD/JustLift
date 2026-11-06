@@ -1,7 +1,7 @@
-package com.upchiapas.kt_template.core.storage.di
+package com.upchiapas.kt_template.core.di
 
 import android.content.Context
-import com.upchiapas.kt_template.core.storage.network.AuthInterceptor
+import com.upchiapas.kt_template.core.network.AuthInterceptor
 import com.upchiapas.kt_template.core.storage.AuthPreferences
 import com.upchiapas.kt_template.core.storage.AuthPreferencesImpl
 import kotlinx.serialization.json.Json

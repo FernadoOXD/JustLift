@@ -1,4 +1,4 @@
-package com.upchiapas.kt_template.core.storage.network
+package com.upchiapas.kt_template.core.network
 
 import com.upchiapas.kt_template.core.storage.AuthPreferences
 import okhttp3.Interceptor
