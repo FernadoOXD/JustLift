@@ -1,5 +1,8 @@
 package com.upchiapas.kt_template.core.di
 
+import com.upchiapas.kt_template.auth.data.datasource.AuthApiService
+import com.upchiapas.kt_template.auth.data.repository.AuthRepositoryImpl
+import com.upchiapas.kt_template.auth.domain.repository.AuthRepository
 import android.content.Context
 import com.upchiapas.kt_template.core.network.AuthInterceptor
 import com.upchiapas.kt_template.core.storage.AuthPreferences
@@ -38,5 +41,12 @@ class AppContainer(private val context: Context) {
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
+    }
+    private val authApiService: AuthApiService by lazy {
+        retrofit.create(AuthApiService::class.java)
+    }
+
+    val authRepository: AuthRepository by lazy {
+        AuthRepositoryImpl(authApiService, authPreferences)
     }
 }
