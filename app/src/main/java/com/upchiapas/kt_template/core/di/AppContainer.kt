@@ -13,6 +13,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
+import com.upchiapas.kt_template.gym.data.datasource.RutinasApiService
+import com.upchiapas.kt_template.gym.data.repository.RutinasRepositoryImpl
+import com.upchiapas.kt_template.gym.domain.repository.RutinasRepository
 
 class AppContainer(private val context: Context) {
 
@@ -52,5 +55,13 @@ class AppContainer(private val context: Context) {
 
     val authRepository: AuthRepository by lazy {
         AuthRepositoryImpl(authApiService, authPreferences)
+    }
+
+    private val rutinasApiService: RutinasApiService by lazy {
+        retrofit.create(RutinasApiService::class.java)
+    }
+
+    val rutinasRepository: RutinasRepository by lazy {
+        RutinasRepositoryImpl(rutinasApiService)
     }
 }
