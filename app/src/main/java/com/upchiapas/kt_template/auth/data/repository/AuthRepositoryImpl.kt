@@ -1,5 +1,6 @@
 package com.upchiapas.kt_template.auth.data.repository
 
+import android.util.Log
 import com.upchiapas.kt_template.auth.data.datasource.AuthApiService
 import com.upchiapas.kt_template.auth.data.dto.LoginRequestDto
 import com.upchiapas.kt_template.auth.data.dto.RegisterRequestDto
@@ -10,6 +11,8 @@ import com.upchiapas.kt_template.auth.domain.repository.AuthRepository
 import com.upchiapas.kt_template.core.storage.AuthPreferences
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 class AuthRepositoryImpl(
     private val api: AuthApiService,

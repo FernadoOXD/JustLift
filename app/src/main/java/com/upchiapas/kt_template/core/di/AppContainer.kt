@@ -12,6 +12,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import java.util.concurrent.TimeUnit
 
 class AppContainer(private val context: Context) {
 
@@ -26,6 +27,9 @@ class AppContainer(private val context: Context) {
     private val okHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
             .build()
     }
 
@@ -37,7 +41,7 @@ class AppContainer(private val context: Context) {
     // Se usará desde el Paso 5 en adelante para crear los ApiService
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl("http://localhost:3000/") // <--- Cambiado a localhost
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
