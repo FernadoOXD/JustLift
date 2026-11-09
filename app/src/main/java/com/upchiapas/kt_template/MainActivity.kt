@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.upchiapas.kt_template.auth.presentation.login.LoginScreen
 import com.upchiapas.kt_template.auth.presentation.register.RegisterScreen
 import com.upchiapas.kt_template.ui.theme.Kt_templateTheme
+import com.upchiapas.kt_template.gym.presentation.home.HomeScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,24 +66,14 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("home") {
-                        // Vista temporal de Home hasta implementar HomeScreen (Paso 9 del proyecto) osi osi
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(24.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text("Home (temporal)")
-                            Button(onClick = {
-                                container.authPreferences.clearToken()
-                                navController.navigate("login") {
-                                    popUpTo(0) // para evitar la navegacion con el boton hacia atras
-                                }
-                            }) {
-                                Text("Cerrar sesión")
+                        HomeScreen(
+                            onRutinaClick = { /* Paso 10: detalle */ },
+                            onAddClick = { /* Paso 11: formulario */ },
+                            onEditClick = { /* Paso 11: formulario */ },
+                            onLoggedOut = {
+                                navController.navigate("login") { popUpTo(0) }
                             }
-                        }
+                        )
                     }
                 }
             }
