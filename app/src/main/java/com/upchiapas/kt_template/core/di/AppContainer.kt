@@ -41,11 +41,9 @@ class AppContainer(private val context: Context) {
         explicitNulls = false
     }
 
-    //nota personal
-    // Se usará desde el Paso 5 en adelante para crear los ApiService
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://localhost:3000/") // <--- Cambiado a localhost
+            .baseUrl("https://justlift-backend.onrender.com/")
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
