@@ -4,75 +4,91 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.upchiapas.kt_template.auth.presentation.login.LoginScreen
 import com.upchiapas.kt_template.auth.presentation.register.RegisterScreen
-import com.upchiapas.kt_template.ui.theme.Kt_templateTheme
+import com.upchiapas.kt_template.core.navigation.Routes
+import com.upchiapas.kt_template.gym.presentation.detail.RutinaDetailScreen
+import com.upchiapas.kt_template.gym.presentation.form.RutinaFormScreen
 import com.upchiapas.kt_template.gym.presentation.home.HomeScreen
+import com.upchiapas.kt_template.ui.theme.Kt_templateTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Se calcula UNA vez, antes de setContent, para que el grafo no se reconstruya al iniciar sesión
         val container = (application as KtApplication).container
-
-        // con esto se define la pantalla principal dependiendo si ees que hay una secion activa pa
-        val startDestination = if (container.authPreferences.hasToken()) "home" else "login"
+        val startDestination = if (container.authPreferences.hasToken()) Routes.HOME else Routes.LOGIN
 
         setContent {
             Kt_templateTheme {
                 val navController = rememberNavController()
 
-                NavHost(
-                    navController = navController,
-                    startDestination = startDestination
-                ) {
-                    composable("login") {
+                NavHost(navController = navController, startDestination = startDestination) {
+
+                    composable(Routes.LOGIN) {
                         LoginScreen(
                             onLoginSuccess = {
-                                navController.navigate("home") {
-                                    popUpTo("login") { inclusive = true }
+                                navController.navigate(Routes.HOME) {
+                                    popUpTo(Routes.LOGIN) { inclusive = true }
                                 }
                             },
-                            onNavigateToRegister = {
-                                navController.navigate("register")
-                            }
+                            onNavigateToRegister = { navController.navigate(Routes.REGISTER) }
                         )
                     }
 
-                    composable("register") {
+                    composable(Routes.REGISTER) {
                         RegisterScreen(
                             onRegisterSuccess = {
-                                navController.navigate("home") {
-                                    popUpTo("login") { inclusive = true }
+                                navController.navigate(Routes.HOME) {
+                                    popUpTo(Routes.LOGIN) { inclusive = true }
                                 }
                             },
-                            onNavigateBack = {
-                                navController.popBackStack()
+                            onNavigateBack = { navController.popBackStack() }
+                        )
+                    }
+
+                    composable(Routes.HOME) {
+                        HomeScreen(
+                            onRutinaClick = { id -> navController.navigate(Routes.detail(id)) },
+                            onAddClick = { navController.navigate(Routes.form()) },
+                            onEditClick = { id -> navController.navigate(Routes.form(id)) },
+                            onLoggedOut = {
+                                navController.navigate(Routes.LOGIN) { popUpTo(0) }
                             }
                         )
                     }
 
-                    composable("home") {
-                        HomeScreen(
-                            onRutinaClick = { /* Paso 10: detalle */ },
-                            onAddClick = { /* Paso 11: formulario */ },
-                            onEditClick = { /* Paso 11: formulario */ },
-                            onLoggedOut = {
-                                navController.navigate("login") { popUpTo(0) }
+                    composable(
+                        route = Routes.DETAIL,
+                        arguments = listOf(
+                            navArgument(Routes.RUTINA_ID) { type = NavType.IntType }
+                        )
+                    ) {
+                        RutinaDetailScreen(
+                            onNavigateBack = { navController.popBackStack() },
+                            onEditClick = { id -> navController.navigate(Routes.form(id)) }
+                        )
+                    }
+
+                    composable(
+                        route = Routes.FORM,
+                        arguments = listOf(
+                            navArgument(Routes.RUTINA_ID) {
+                                type = NavType.IntType
+                                defaultValue = Routes.NO_ID
                             }
+                        )
+                    ) {
+                        RutinaFormScreen(
+                            onSaved = { navController.popBackStack() },
+                            onNavigateBack = { navController.popBackStack() }
                         )
                     }
                 }
