@@ -1,6 +1,5 @@
 package com.upchiapas.kt_template.auth.data.repository
 
-import android.util.Log
 import com.upchiapas.kt_template.auth.data.datasource.AuthApiService
 import com.upchiapas.kt_template.auth.data.dto.LoginRequestDto
 import com.upchiapas.kt_template.auth.data.dto.RegisterRequestDto
@@ -11,8 +10,6 @@ import com.upchiapas.kt_template.auth.domain.repository.AuthRepository
 import com.upchiapas.kt_template.core.storage.AuthPreferences
 import retrofit2.HttpException
 import java.io.IOException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 
 class AuthRepositoryImpl(
     private val api: AuthApiService,
@@ -22,14 +19,14 @@ class AuthRepositoryImpl(
     override suspend fun login(email: String, password: String): User =
         authCall(badRequestMessage = "Correo o contraseña incorrectos") {
             val response = api.login(LoginRequestDto(email, password))
-            authPreferences.saveToken(response.accessToken)
+            authPreferences.saveSession(response.accessToken, response.user.id)
             response.user.toDomain()
         }
 
     override suspend fun register(name: String, email: String, password: String): User =
         authCall(badRequestMessage = "No se pudo crear la cuenta. ¿Ya existe ese correo?") {
             val response = api.register(RegisterRequestDto(email, password, name))
-            authPreferences.saveToken(response.accessToken)
+            authPreferences.saveSession(response.accessToken, response.user.id)
             response.user.toDomain()
         }
 

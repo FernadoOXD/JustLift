@@ -80,7 +80,7 @@ class HomeViewModel(
     }
 
     fun onLogoutClick() {
-        authPreferences.clearToken()
+        authPreferences.clearSession()
         _uiState.update { it.copy(isLoggedOut = true) }
     }
 

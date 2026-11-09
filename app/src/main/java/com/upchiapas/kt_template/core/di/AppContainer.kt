@@ -1,21 +1,21 @@
 package com.upchiapas.kt_template.core.di
 
+import android.content.Context
 import com.upchiapas.kt_template.auth.data.datasource.AuthApiService
 import com.upchiapas.kt_template.auth.data.repository.AuthRepositoryImpl
 import com.upchiapas.kt_template.auth.domain.repository.AuthRepository
-import android.content.Context
 import com.upchiapas.kt_template.core.network.AuthInterceptor
 import com.upchiapas.kt_template.core.storage.AuthPreferences
 import com.upchiapas.kt_template.core.storage.AuthPreferencesImpl
+import com.upchiapas.kt_template.gym.data.datasource.RutinasApiService
+import com.upchiapas.kt_template.gym.data.repository.RutinasRepositoryImpl
+import com.upchiapas.kt_template.gym.domain.repository.RutinasRepository
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
-import com.upchiapas.kt_template.gym.data.datasource.RutinasApiService
-import com.upchiapas.kt_template.gym.data.repository.RutinasRepositoryImpl
-import com.upchiapas.kt_template.gym.domain.repository.RutinasRepository
 
 class AppContainer(private val context: Context) {
 
@@ -40,6 +40,7 @@ class AppContainer(private val context: Context) {
         ignoreUnknownKeys = true
         explicitNulls = false
     }
+
     //nota personal
     // Se usará desde el Paso 5 en adelante para crear los ApiService
     private val retrofit: Retrofit by lazy {
@@ -62,6 +63,6 @@ class AppContainer(private val context: Context) {
     }
 
     val rutinasRepository: RutinasRepository by lazy {
-        RutinasRepositoryImpl(rutinasApiService)
+        RutinasRepositoryImpl(rutinasApiService, authPreferences)
     }
 }

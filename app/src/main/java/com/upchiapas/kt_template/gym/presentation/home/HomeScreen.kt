@@ -40,8 +40,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.upchiapas.kt_template.gym.domain.model.Rutina
 import com.upchiapas.kt_template.core.ui.CenteredMessage
+import com.upchiapas.kt_template.gym.domain.model.Rutina
 
 @Composable
 fun HomeScreen(

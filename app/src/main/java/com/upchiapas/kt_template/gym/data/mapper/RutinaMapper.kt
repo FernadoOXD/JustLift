@@ -12,8 +12,9 @@ fun RutinaDto.toDomain(): Rutina = Rutina(
     activa = this.activa
 )
 
-fun Rutina.toDto(): RutinaDto = RutinaDto(
+fun Rutina.toDto(userId: Int): RutinaDto = RutinaDto(
     id = if (this.id == 0) null else this.id,
+    userId = userId,
     nombre = this.nombre,
     grupoMuscular = this.grupoMuscular,
     series = this.series,

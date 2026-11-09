@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.upchiapas.kt_template.KtApplication
-import com.upchiapas.kt_template.core.di.AppContainer
 import com.upchiapas.kt_template.auth.domain.model.AuthException
 import com.upchiapas.kt_template.auth.domain.repository.AuthRepository
 import com.upchiapas.kt_template.auth.domain.validation.AuthValidator

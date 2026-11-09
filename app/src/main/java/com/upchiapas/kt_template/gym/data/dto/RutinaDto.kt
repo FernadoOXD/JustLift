@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RutinaDto(
     val id: Int? = null,
+    val userId: Int? = null,
     val nombre: String,
     val grupoMuscular: String,
     val series: Int,

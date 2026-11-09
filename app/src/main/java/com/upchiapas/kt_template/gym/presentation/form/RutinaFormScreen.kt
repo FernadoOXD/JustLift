@@ -105,13 +105,17 @@ private fun RutinaFormContent(
     ) { padding ->
         when {
             state.isLoadingRutina -> {
-                Box(Modifier.fillMaxSize().padding(padding)) {
+                Box(Modifier
+                    .fillMaxSize()
+                    .padding(padding)) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
             }
 
             state.loadError != null -> {
-                Box(Modifier.fillMaxSize().padding(padding)) {
+                Box(Modifier
+                    .fillMaxSize()
+                    .padding(padding)) {
                     CenteredMessage(
                         text = state.loadError,
                         actionLabel = "Reintentar",

@@ -18,6 +18,7 @@ object AuthValidator {
         password.isBlank() -> "La contraseña es obligatoria"
         password.length < MIN_PASSWORD_LENGTH ->
             "Mínimo $MIN_PASSWORD_LENGTH caracteres"
+
         else -> null
     }
 }

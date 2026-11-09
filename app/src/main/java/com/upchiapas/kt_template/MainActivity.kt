@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
 
         // Se calcula UNA vez, antes de setContent, para que el grafo no se reconstruya al iniciar sesión
         val container = (application as KtApplication).container
-        val startDestination = if (container.authPreferences.hasToken()) Routes.HOME else Routes.LOGIN
+        val startDestination =
+            if (container.authPreferences.hasToken()) Routes.HOME else Routes.LOGIN
 
         setContent {
             Kt_templateTheme {
